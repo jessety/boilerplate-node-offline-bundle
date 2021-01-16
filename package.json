@@ -1,0 +1,30 @@
+{
+  "name": "node-offline-bundle",
+  "version": "1.0.0",
+  "description": "Boilerplate scripts to install a Node service offline on Linux or Windows.",
+  "homepage": "https://github.com/jessety/boilerplate-node-offline-bundle#readme",
+  "bugs": {
+    "url": "https://github.com/jessety/boilerplate-node-offline-bundle/issues"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/jessety/boilerplate-node-offline-bundle.git"
+  },
+  "license": "MIT",
+  "author": "Jesse Youngblood",
+  "main": "src/index.js",
+  "scripts": {
+    "bundle": "node ./scripts/deployment/script-for-os.cjs",
+    "bundle:unix": "bash ./scripts/deployment/unix/bundle.sh",
+    "bundle:windows": "PowerShell -NoProfile -ExecutionPolicy Bypass scripts\\deployment\\windows\\bundle.ps1",
+    "unbundle": "node ./scripts/deployment/script-for-os.cjs",
+    "unbundle:unix": "bash ./scripts/deployment/unix/unbundle.sh",
+    "unbundle:windows": "PowerShell -NoProfile -ExecutionPolicy Bypass scripts\\deployment\\windows\\unbundle.ps1"
+  },
+  "dependencies": {
+    "koa": "^2.13.1",
+    "koa-bodyparser": "^4.3.0",
+    "koa-logger": "^3.2.1",
+    "koa-router": "^10.0.0"
+  }
+}

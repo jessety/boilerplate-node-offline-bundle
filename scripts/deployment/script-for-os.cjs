@@ -1,4 +1,5 @@
 #!/usr/bin/env node
+ // From: https://github.com/jessety/boilerplate-node-offline-bundle/blob/main/scripts/deployment/script-for-os.cjs
 
 'use strict';
 
@@ -25,6 +26,12 @@ if (process.env['npm_config_argv'] !== undefined) {
 
   [, targetScriptName, ...scriptParameters] = parameters;
 
+  // yarn
+
+  if (parameters[0] !== 'run') {
+    [targetScriptName, ...scriptParameters] = parameters;
+  }
+
 } else if (process.env['npm_lifecycle_script'] !== undefined && process.env['npm_lifecycle_event'] !== undefined) {
 
   // npm >= 7
@@ -32,15 +39,15 @@ if (process.env['npm_config_argv'] !== undefined) {
   const lifecycle = process.env['npm_lifecycle_script'];
 
   scriptParameters = lifecycle.slice(lifecycle.indexOf('.cjs') + 5)
-  .split(' ')
-  .map(parameter => {
+    .split(' ')
+    .map(parameter => {
 
-    if (parameter.length > 2) {
-      return parameter.slice(1, -1);
-    }
+      if (parameter.length > 2) {
+        return parameter.slice(1, -1);
+      }
 
-    return parameter;
-  });
+      return parameter;
+    });
 
   targetScriptName = process.env['npm_lifecycle_event'];
 }

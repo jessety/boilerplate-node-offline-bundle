@@ -8,14 +8,14 @@ $archive_zip = ".\bundle.zip";
 # Print out the versions of this package, node, and npm for this host
 node scripts\deployment\bundle-info\current.cjs
 
-# Check connectivity to registry.npmjs.org
-node scripts\deployment\npm-online.cjs
+# Check connectivity to the npm and gpr registry
+node scripts\deployment\test-connection\both.cjs
 
 if ($? -eq $True) {
 
   Write-Host "Installing dependencies.."
 
-  npm install --production --force --loglevel=error --no-audit --no-fund
+  npm install --production --force --loglevel=error --no-audit --no-fund --ignore-scripts
 
 } else {
 
@@ -76,7 +76,7 @@ if ($? -eq $True) {
 
     # This will probably not work.
 
-    npm install --production --loglevel=error --no-audit --no-fund
+    npm install --production --loglevel=error --no-audit --no-fund --ignore-scripts
   }
 }
 

@@ -7,14 +7,14 @@ archive="./bundle.tar.gz"
 # Print out the versions of this package, node, and npm for this host
 node scripts/deployment/bundle-info/current.cjs
 
-# Check connectivity to registry.npmjs.org
-node scripts/deployment/npm-online.cjs
+# Check connectivity to the npm and gpr registry
+node scripts/deployment/test-connection/both.cjs
 
 if [ $? -eq 0 ]; then
 
   echo "Installing dependencies.."
 
-  npm install --production --force --loglevel=error --no-audit --no-fund
+  npm install --production --force --loglevel=error --no-audit --no-fund --ignore-scripts
 
 else
 
@@ -34,7 +34,7 @@ else
 
     echo "Dependency bundle not detected. Attempting install anyway.."
 
-    npm install --production --loglevel=error --no-audit --no-fund
+    npm install --production --loglevel=error --no-audit --no-fund --ignore-scripts
   fi
 fi
 

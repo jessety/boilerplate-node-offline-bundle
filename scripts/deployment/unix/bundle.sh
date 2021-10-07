@@ -2,7 +2,7 @@
 
 echo "=== Bundle ==="
 
-folder="./node_modules";
+folder="./node_modules"
 archive="./bundle.tar.gz"
 
 if [ -d $folder ]; then
@@ -16,7 +16,7 @@ if [ -f $archive ]; then
 fi
 
 echo "Populating dependencies.."
-npm install --production --force --loglevel=error --no-audit --no-fund
+npm install --production --force --loglevel=error --no-audit --no-fund --ignore-scripts
 
 echo "Compressing dependencies.."
 tar -czf $archive $folder

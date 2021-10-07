@@ -20,7 +20,7 @@ if (Test-Path $archive_zip) {
 }
 
 Write-Host "Populating dependencies.."
-npm install --production --force --loglevel=error --no-audit --no-fund
+npm install --production --force --loglevel=error --no-audit --no-fund --ignore-scripts
 
 if (Get-Command "tar.exe" -ErrorAction SilentlyContinue) {
 

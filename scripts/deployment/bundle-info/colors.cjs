@@ -14,13 +14,9 @@ const colors = {
 const reset = '\u001b[0m';
 
 for (const [name, value] of Object.entries(colors)) {
-
   if (process.stdout.isTTY === true) {
-
     module.exports[name] = (...out) => `${value}${out.join(' ')}${reset}`;
-
   } else {
-
     module.exports[name] = (...out) => out.join(' ');
   }
 }

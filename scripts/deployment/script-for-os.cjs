@@ -1,16 +1,18 @@
 #!/usr/bin/env node
- // From: https://github.com/jessety/boilerplate-node-offline-bundle/blob/main/scripts/deployment/script-for-os.cjs
 
 'use strict';
 
+const { spawn } = require('child_process');
 const os = require('os');
 const path = require('path');
-const { spawn } = require('child_process');
 
 const { scripts } = require(path.join(process.cwd(), 'package.json'));
 const platform = os.platform();
 
-if (process.env['npm_config_argv'] === undefined && process.env['npm_lifecycle_script'] === undefined) {
+if (
+  process.env['npm_config_argv'] === undefined
+  && process.env['npm_lifecycle_script'] === undefined
+) {
   console.error('script-for-os is intended for use from an npm script only.');
   process.exit(1);
 }
@@ -19,29 +21,23 @@ let targetScriptName;
 let scriptParameters;
 
 if (process.env['npm_config_argv'] !== undefined) {
-
   // npm < 7
 
   const { original: parameters } = JSON.parse(process.env['npm_config_argv']);
 
   [, targetScriptName, ...scriptParameters] = parameters;
-
-  // yarn
-
-  if (parameters[0] !== 'run') {
-    [targetScriptName, ...scriptParameters] = parameters;
-  }
-
-} else if (process.env['npm_lifecycle_script'] !== undefined && process.env['npm_lifecycle_event'] !== undefined) {
-
+} else if (
+  process.env['npm_lifecycle_script'] !== undefined
+  && process.env['npm_lifecycle_event'] !== undefined
+) {
   // npm >= 7
 
   const lifecycle = process.env['npm_lifecycle_script'];
 
-  scriptParameters = lifecycle.slice(lifecycle.indexOf('.cjs') + 5)
+  scriptParameters = lifecycle
+    .slice(lifecycle.indexOf('.cjs') + 5)
     .split(' ')
-    .map(parameter => {
-
+    .map((parameter) => {
       if (parameter.length > 2) {
         return parameter.slice(1, -1);
       }
@@ -71,7 +67,6 @@ platformKeys.push('default');
 let scriptName;
 
 for (const platform of platformKeys) {
-
   const key = `${targetScriptName}:${platform}`;
 
   if (scripts[key] === undefined) {
@@ -83,7 +78,10 @@ for (const platform of platformKeys) {
 }
 
 if (scriptName === undefined) {
-  console.error(`script-for-os: Could not find script for "${targetScriptName}" to execute for this platform. Expected to find one of these in package.json/scripts:\n`, platformKeys.map(key => `${targetScriptName}:${key}`));
+  console.error(
+    `script-for-os: Could not find script for "${targetScriptName}" to execute for this platform. Expected to find one of these in package.json/scripts:\n`,
+    platformKeys.map((key) => `${targetScriptName}:${key}`)
+  );
   process.exit(1);
 }
 
@@ -96,6 +94,6 @@ if (platform === 'win32') {
   child = spawn('npm', childArgs, { shell: true, stdio: 'inherit' });
 }
 
-child.on('exit', code => {
+child.on('exit', (code) => {
   process.exit(code);
 });
